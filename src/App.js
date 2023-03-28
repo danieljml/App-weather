@@ -19,41 +19,38 @@ function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [weather, setWeather] = useState('');
   const [alert, setAlert] = useState({ type: '', message: '' });
-  const FORM = useRef(null);
 
-  const handlerTimer = () => {
-    setTimeout(() => setAlert({ type: '', message: '' }), 3000);
-  };
+  const handlerTimer = () => setTimeout(() => setAlert({ type: '', message: '' }), 3000);
 
-  const getInputCountry = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const form = FORM?.current;
+    const form = e.target;
     const formData = new FormData(form);
     const { country } = Object.fromEntries(formData.entries());
     searchWeatherByCountry(country);
     form.reset();
   };
 
-  useEffect(() => {
-    FORM?.current?.addEventListener('submit', getInputCountry);
-  }, []);
-
   const searchWeatherByCountry = async country => {
-    const res = await fetch(`${api.base}weather?q=${country}&units=metric&APPID=${api.key}`);
-    const data = await res.json();
-    if (res.status === 200) {
-      setWeatherData(data);
-      setAlert({ type: 'success', message: 'Success request' });
-      handlerTimer();
-      if (data.main.temp > 16) {
-        setWeather('warm');
-        return;
+    try {
+      const res = await fetch(`${api.base}weather?q=${country}&units=metric&APPID=${api.key}`);
+      const data = await res.json();
+      if (res.status === 200) {
+        setWeatherData(data);
+        setAlert({ type: 'success', message: 'Success request' });
+        if (data.main.temp > 16) {
+          setWeather('warm');
+          return;
+        }
+        setWeather('cold');
+      } else {
+        setAlert({ type: 'error', message: 'Invalid country' });
       }
-      setWeather('cold');
-    } else {
-      setAlert({ type: 'error', message: 'Invalid country' });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      handlerTimer();
     }
-    handlerTimer();
   };
 
   const dateBuilder = d => {
@@ -70,7 +67,12 @@ function App() {
 
   const weatherTopSection = weatherData ? (
     <>
-      <img className="top__image" src={weather === 'warm' ? 'https://i.imgur.com/H2Fa2Ye.jpg' : 'https://i.imgur.com/FK28j2H.png'} alt="img-weather" />
+      <img
+        loading="lazy"
+        className="top__image"
+        src={weather === 'warm' ? 'https://i.imgur.com/Cf7kgE8.png' : 'https://i.imgur.com/iLDHBSD.png'}
+        alt="img-weather"
+      />
       <div className="top__content">
         <p>{weatherData.weather[0]?.main}</p>
         <span>{Math.round(weatherData.main.temp)}°</span>
@@ -83,7 +85,7 @@ function App() {
   const weatherBottomSection = weatherData ? (
     <>
       <div className="container__image">
-        <img className={weather} src={`https://openweathermap.org/img/wn/${weatherData.weather[0]?.icon}@2x.png`} alt="icon" />
+        <img loading="lazy" className={weather} src={`https://openweathermap.org/img/wn/${weatherData.weather[0]?.icon}@2x.png`} alt="icon" />
       </div>
       <p className="location">
         {weatherData.name}, {weatherData.sys.country}
@@ -118,9 +120,9 @@ function App() {
       <main className="app">
         <div className="container__top">
           <header className="block">
-            <form ref={FORM} id="form-country" className="form-weather">
+            <form onSubmit={handleSubmit} id="form-country" className="form-weather">
               <input className="form__input" type="text" name="country" placeholder="Search weather by country" />
-              <button className="form__btn">
+              <button type="submit" className="form__btn">
                 <BsSearch className="btn__icon" />
               </button>
             </form>
