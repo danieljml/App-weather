@@ -1,21 +1,20 @@
 {
   "files": {
-    "main.css": "/App-Weather/static/css/main.1800f45b.chunk.css",
-    "main.js": "/App-Weather/static/js/main.252aff24.chunk.js",
-    "main.js.map": "/App-Weather/static/js/main.252aff24.chunk.js.map",
-    "runtime-main.js": "/App-Weather/static/js/runtime-main.1ebf29a8.js",
-    "runtime-main.js.map": "/App-Weather/static/js/runtime-main.1ebf29a8.js.map",
-    "static/js/2.d38693bf.chunk.js": "/App-Weather/static/js/2.d38693bf.chunk.js",
-    "static/js/2.d38693bf.chunk.js.map": "/App-Weather/static/js/2.d38693bf.chunk.js.map",
-    "index.html": "/App-Weather/index.html",
-    "static/css/main.1800f45b.chunk.css.map": "/App-Weather/static/css/main.1800f45b.chunk.css.map",
-    "static/js/2.d38693bf.chunk.js.LICENSE.txt": "/App-Weather/static/js/2.d38693bf.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/App-Weather/static/media/warm-bg.a7f83012.jpg"
+    "main.css": "/app-weather/static/css/main.889517a9.chunk.css",
+    "main.js": "/app-weather/static/js/main.9991b6f3.chunk.js",
+    "main.js.map": "/app-weather/static/js/main.9991b6f3.chunk.js.map",
+    "runtime-main.js": "/app-weather/static/js/runtime-main.b3857fa6.js",
+    "runtime-main.js.map": "/app-weather/static/js/runtime-main.b3857fa6.js.map",
+    "static/js/2.a7ad2103.chunk.js": "/app-weather/static/js/2.a7ad2103.chunk.js",
+    "static/js/2.a7ad2103.chunk.js.map": "/app-weather/static/js/2.a7ad2103.chunk.js.map",
+    "index.html": "/app-weather/index.html",
+    "static/css/main.889517a9.chunk.css.map": "/app-weather/static/css/main.889517a9.chunk.css.map",
+    "static/js/2.a7ad2103.chunk.js.LICENSE.txt": "/app-weather/static/js/2.a7ad2103.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.1ebf29a8.js",
-    "static/js/2.d38693bf.chunk.js",
-    "static/css/main.1800f45b.chunk.css",
-    "static/js/main.252aff24.chunk.js"
+    "static/js/runtime-main.b3857fa6.js",
+    "static/js/2.a7ad2103.chunk.js",
+    "static/css/main.889517a9.chunk.css",
+    "static/js/main.9991b6f3.chunk.js"
   ]
 }
