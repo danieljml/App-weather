@@ -37,20 +37,19 @@ body {
   height: auto;
 }
 
-.container__bottom.warm {
-  background-color: white;
-  color: #9c3d54;
+.app.warm {
+  background-image: url('https://i.imgur.com/96DdlXs.jpg');
 }
 
-.container__bottom.cold {
-  background-color: white;
-  color: #a2dbfa;
+.app.cold {
+  background-image: url('https://i.imgur.com/WjJ4ykK.jpg');
 }
 
 .app {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 370px auto;
+  color: white;
   background: linear-gradient(145deg, #cacaca, #f0f0f0);
   box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
   background-image: linear-gradient(to bottom, rgb(255 255 255 / 22%), rgb(210 210 210));
@@ -118,6 +117,7 @@ header {
 
 .app > .container__top {
   position: relative;
+  margin-bottom: 15px;
 }
 
 .app > .container__top > .top__content {
@@ -128,9 +128,19 @@ header {
   position: absolute;
   top: 50%;
   left: 50%;
+  padding: 5px 10px 10px;
+  border-radius: 20px;
   transform: translate(-50%, -50%);
   color: white;
   font-weight: 500;
+}
+
+.top__content.warm,
+.top__content.cold {
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
 }
 
 .top__content p {
@@ -139,7 +149,6 @@ header {
 }
 
 .top__content span {
-  margin-left: 30%;
   font-size: 4.5rem;
   font-weight: 500;
 }
@@ -150,12 +159,16 @@ header {
   border-radius: 20px 20px 0 0;
 }
 
-.container__bottom {
-  padding: 0 20px 20px 20px;
+.container__bottom.warm,
+.container__bottom.cold {
+  margin: 0 20px 20px 20px;
   position: relative;
-  border-radius: 0 0 20px 20px;
+  border-radius: 20px;
   z-index: 1;
-  margin-top: -1px;
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
 }
 
 .container__bottom .container__image {

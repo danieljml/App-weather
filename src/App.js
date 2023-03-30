@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect, memo } from 'react';
 import { BsSearch } from 'react-icons/bs';
+import moment from 'moment';
 import './index.css';
 
 const convertTimezoneToMinutes = timezone => {
@@ -9,15 +9,60 @@ const convertTimezoneToMinutes = timezone => {
   return timezoneToMinutes;
 };
 
+const getCityByIP = async clientIP => {
+  try {
+    const res = await fetch(`https://ipinfo.io/${clientIP}?token=f7e68a41baa7e5`);
+    const data = await res.json();
+    console.log('User IP Address:', data);
+    const { city } = data;
+    return city;
+  } catch (error) {
+    console.error('Error fetching city by IP:', error);
+  }
+};
+
+const getUserIP = async () => {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const { ip: clientIP } = await response.json();
+    return clientIP;
+  } catch (error) {
+    console.error('Error fetching IP:', error);
+  }
+};
+
 const api = {
   key: '4aa692caf0bf7cf7a224fe81a3ca4959',
   base: 'https://api.openweathermap.org/data/2.5/',
 };
 
+const InputContent = () => {
+  return (
+    <>
+      <input className="form__input" type="text" name="country" placeholder="Search weather by country" />
+      <button type="submit" className="form__btn">
+        <BsSearch className="btn__icon" />
+      </button>
+    </>
+  );
+};
+
+const Input = memo(InputContent);
+
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [weather, setWeather] = useState('');
   const [alert, setAlert] = useState({ type: '', message: '' });
+
+  const getUsercity = async () => {
+    const ip = await getUserIP();
+    const city = await getCityByIP(ip);
+    searchWeatherByCountry(city);
+  };
+
+  useEffect(() => {
+    getUsercity();
+  }, []);
 
   const handlerTimer = () => setTimeout(() => setAlert({ type: '', message: '' }), 3000);
 
@@ -52,27 +97,11 @@ function App() {
     }
   };
 
-  const dateBuilder = d => {
-    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
-    let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-    let day = days[d.getDay()];
-    let date = d.getDate();
-    let month = months[d.getMonth()];
-    let year = d.getFullYear();
-    return `${day} ${date} ${month} ${year}`;
-  };
+  const dateBuilder = () => moment().format('LLLL');
 
   const weatherTopSection = weatherData ? (
     <>
-      <img
-        loading="lazy"
-        className="top__image"
-        src={weather === 'warm' ? 'https://i.imgur.com/Cf7kgE8.png' : 'https://i.imgur.com/iLDHBSD.png'}
-        alt="img-weather"
-      />
-      <div className="top__content">
+      <div className={`top__content ${weather}`}>
         <p>{weatherData.weather[0]?.main}</p>
         <span>{Math.round(weatherData.main.temp)}°</span>
       </div>
@@ -89,7 +118,7 @@ function App() {
       <p className="location">
         {weatherData.name}, {weatherData.sys.country}
       </p>
-      <p className="date">{dateBuilder(new Date())}</p>
+      <p className="date">{dateBuilder()}</p>
       <ul>
         <li>
           Description: <span>{weatherData.weather[0].description}</span>
@@ -116,14 +145,11 @@ function App() {
       <div className={`alert ${alert.type}`}>
         <p>{alert.message}</p>
       </div>
-      <main className="app">
+      <main className={`app ${weather}`}>
         <div className="container__top">
           <header className="block">
             <form onSubmit={handleSubmit} id="form-country" className="form-weather">
-              <input className="form__input" type="text" name="country" placeholder="Search weather by country" />
-              <button type="submit" className="form__btn">
-                <BsSearch className="btn__icon" />
-              </button>
+              <Input />
             </form>
           </header>
           {weatherTopSection}
