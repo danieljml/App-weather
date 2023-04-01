@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400;1,500;1,700&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -18,13 +18,14 @@ body {
   padding: 20px;
   height: 100vh;
   background-color: #e0e0e0;
+  font-size: 18px;
 }
 
 .container__app {
   width: 100%;
   height: 660px;
   transition: all 1s ease;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
 }
 
 .container__app.warm {
@@ -73,7 +74,7 @@ header {
 }
 
 .form__input {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
   padding: 20px;
   border-radius: 20px 0 0 0;
   font-size: 0.8rem;
@@ -98,7 +99,7 @@ header {
 .form__btn {
   display: grid;
   place-items: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Alegreya Sans', sans-serif;
   outline: none;
   border: none;
   background-color: black;
@@ -128,7 +129,7 @@ header {
   position: absolute;
   top: 50%;
   left: 50%;
-  padding: 5px 10px 10px;
+  padding: 10px 20px;
   border-radius: 20px;
   transform: translate(-50%, -50%);
   color: white;
@@ -222,6 +223,7 @@ li > span {
 }
 
 .alert {
+  font-family: 'Alegreya Sans', sans-serif;
   position: absolute;
   background: white;
   transition: all ease-in-out 0.8s;
@@ -230,18 +232,19 @@ li > span {
   padding: 20px;
   font-weight: 600;
   border: 3px solid #000000;
-  top: -100%;
+  bottom: 3%;
+  left: -100%;
   z-index: 3;
-  border-radius: 20px 20px 0 0;
+  border-radius: 10px;
 }
 
 .alert.error {
-  top: 5%;
+  left: 3%;
   border: 3px solid #e34747;
 }
 
 .alert.success {
-  top: 2%;
+  left: 3%;
   border: 3px solid #43a854;
 }
 

@@ -64,14 +64,21 @@ function App() {
     getUsercity();
   }, []);
 
-  const handlerTimer = () => setTimeout(() => setAlert({ type: '', message: '' }), 3000);
+  const handlerTimer = () => setTimeout(() => setAlert({ type: '', message: '' }), 2000);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
     const { country } = Object.fromEntries(formData.entries());
-    searchWeatherByCountry(country);
+
+    const successRequest = await searchWeatherByCountry(country);
+    if (successRequest) {
+      setAlert({ type: 'success', message: 'Success request' });
+    } else {
+      setAlert({ type: 'error', message: 'Invalid country' });
+    }
+    handlerTimer();
     form.reset();
   };
 
@@ -80,20 +87,16 @@ function App() {
       const res = await fetch(`${api.base}weather?q=${country}&units=metric&APPID=${api.key}`);
       const data = await res.json();
       if (res.status === 200) {
-        setWeatherData(data);
-        setAlert({ type: 'success', message: 'Success request' });
         if (data.main.temp > 16) {
           setWeather('warm');
-          return;
         }
         setWeather('cold');
-      } else {
-        setAlert({ type: 'error', message: 'Invalid country' });
+        setWeatherData(data);
+        return true;
       }
+      return false;
     } catch (error) {
       console.log(error);
-    } finally {
-      handlerTimer();
     }
   };
 
@@ -141,22 +144,24 @@ function App() {
   );
 
   return (
-    <div className={`container__app ${weather}`}>
+    <>
       <div className={`alert ${alert.type}`}>
         <p>{alert.message}</p>
       </div>
-      <main className={`app ${weather}`}>
-        <div className="container__top">
-          <header className="block">
-            <form onSubmit={handleSubmit} id="form-country" className="form-weather">
-              <Input />
-            </form>
-          </header>
-          {weatherTopSection}
-        </div>
-        <div className={`container__bottom ${weather}`}>{weatherBottomSection}</div>
-      </main>
-    </div>
+      <div className={`container__app ${weather}`}>
+        <main className={`app ${weather}`}>
+          <div className="container__top">
+            <header className="block">
+              <form onSubmit={handleSubmit} id="form-country" className="form-weather">
+                <Input />
+              </form>
+            </header>
+            {weatherTopSection}
+          </div>
+          <div className={`container__bottom ${weather}`}>{weatherBottomSection}</div>
+        </main>
+      </div>
+    </>
   );
 }
 
